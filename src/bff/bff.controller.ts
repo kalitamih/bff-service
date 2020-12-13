@@ -9,12 +9,10 @@ export class BffController {
     
     @All('/:service')
     async redirectToService(@Req() req: Request, @Param() params) {
-        console.log(req);
         const service = params.service;
         const body = req.body;
         const method = req.method;
         const url = req.originalUrl.replace(`/${service}`, '');
-        console.log(req.body);
         const response = await this._bffService.request(service, url, method, body);
      
         return response;

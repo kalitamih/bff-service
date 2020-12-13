@@ -20,11 +20,15 @@ let BffService = class BffService {
         this.services = constants_1.Services;
     }
     async request(service, url, method, body) {
+        console.log(service);
+        console.log(this.services);
         if (!this.services[service]) {
             throw new common_1.HttpException('Cannot process request', 502);
         }
+        console.log(service);
         if (service === constants_1.productService && url === constants_1.pathListProducts) {
-            const cachedData = this._cacheService.get();
+            const cachedData = await this._cacheService.get();
+            console.log(cachedData);
             if (cachedData) {
                 console.log('response from cache');
                 return cachedData;
@@ -36,7 +40,7 @@ let BffService = class BffService {
             data: method !== 'GET' ? body : null
         });
         if (service === constants_1.productService && url === constants_1.pathListProducts) {
-            this._cacheService.set(response.data);
+            await this._cacheService.set(response.data);
         }
         console.log('response from request');
         return response.data;

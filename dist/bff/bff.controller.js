@@ -20,12 +20,10 @@ let BffController = class BffController {
         this._bffService = _bffService;
     }
     async redirectToService(req, params) {
-        console.log(req);
         const service = params.service;
         const body = req.body;
         const method = req.method;
         const url = req.originalUrl.replace(`/${service}`, '');
-        console.log(req.body);
         const response = await this._bffService.request(service, url, method, body);
         return response;
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-const NodeCache = require( "node-cache" );
+const NodeCache = require("node-cache");
 
 @Injectable()
 export class CacheService {
@@ -10,13 +10,18 @@ export class CacheService {
        this._cache = new NodeCache();
     }   
 
-    public set(val: any) {
-        this._cache.mset([
-            {key: "products", val, ttl: this._ttl},
-        ])      
+    public async set(val: any) {
+        console.log(val);
+        console.log(this._ttl);
+        
+        await this._cache.set(
+            "products", val, this._ttl,
+        );      
     }
 
     public async get() {
+        console.log('get');
+        console.log(this._cache.keys());
         return this._cache.get("products");
     }
 }

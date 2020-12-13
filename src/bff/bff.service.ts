@@ -10,15 +10,21 @@ export class BffService {
     constructor(private _cacheService: CacheService) {}   
 
     public async request(service: string, url: string, method, body) {
+        console.log(service);
+        console.log(this.services);
         if (!this.services[service]) {
             throw new HttpException('Cannot process request', 502);
         }
 
+        console.log(service);
+
         if(service === productService && url === pathListProducts) {          
-            const cachedData = this._cacheService.get();
+            const cachedData = await this._cacheService.get();
+            console.log(cachedData);
             if(cachedData) {
                 console.log('response from cache');
-             
+
+                     
                 return cachedData;
             }
         }
@@ -30,10 +36,12 @@ export class BffService {
         });
 
         if(service === productService && url === pathListProducts) {
-           this._cacheService.set(response.data);
+          await this._cacheService.set(response.data);
         }
 
         console.log('response from request');
+
+
 
         return response.data;
     }

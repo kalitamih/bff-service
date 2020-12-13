@@ -17,12 +17,14 @@ let CacheService = class CacheService {
         this._ttl = 120;
         this._cache = new NodeCache();
     }
-    set(val) {
-        this._cache.mset([
-            { key: "products", val, ttl: this._ttl },
-        ]);
+    async set(val) {
+        console.log(val);
+        console.log(this._ttl);
+        await this._cache.set("products", val, this._ttl);
     }
     async get() {
+        console.log('get');
+        console.log(this._cache.keys());
         return this._cache.get("products");
     }
 };

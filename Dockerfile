@@ -2,11 +2,11 @@ FROM mhart/alpine-node as build
 
 WORKDIR /app
 
-COPY ./*.json ./
+COPY ./bff-service/*.json ./
 
 RUN npm install && npm cache clean --force
 
-COPY ./src ./src
+COPY ./bff-service/src ./src
 
 RUN npm run prebuild && npm run build
 
